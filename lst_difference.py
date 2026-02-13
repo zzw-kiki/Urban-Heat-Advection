@@ -1,0 +1,103 @@
+# 绘制上下风口温差曲线，并计算温差大于0即下风口温度大于上风口温度的距离段
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy.interpolate import make_interp_spline
+import os
+import matplotlib
+matplotlib.use('Agg')
+
+from matplotlib import rcParams
+plt.rcParams["font.family"] = "Times New Roman"
+# 文件和输出目录映射
+file_map = {
+    "center": (
+        r"E:\UHA\UHA_center.csv",
+        r"E:\UHA\distance_lst\plot"
+    ),
+}
+output_csv_map = {
+    "center": r"E:\UHA\distance_lst\lst_difference.csv",
+}
+thermal_lag_data = {}
+
+# x 轴（距离）
+x_vals = np.arange(1, 31)
+
+for name, (input_file, output_dir) in file_map.items():
+    os.makedirs(output_dir, exist_ok=True)
+    df = pd.read_csv(input_file)
+
+    # 遍历每一个城市
+    for _, row in df.iterrows():
+        city = row['city']
+
+        # 提取列名
+        avg_cols = [f'ΔT2020_{i}km' for i in x_vals]
+        avg_values = row[avg_cols].values.astype(float)
+
+        fig, ax1 = plt.subplots(figsize=(8, 6))
+
+        # 画 AVG_WBTI 曲线（左轴）
+        valid_avg = ~np.isnan(avg_values)
+        x_avg = x_vals[valid_avg]
+        y_avg = avg_values[valid_avg]
+
+        if len(x_avg) > 1:
+            x_new = np.linspace(x_avg.min(), x_avg.max(), 300)
+            y_smooth = make_interp_spline(x_avg, y_avg)(x_new)
+            ax1.plot(x_new, y_smooth, color='#4EBEFF', label='Cumulative LST Difference')
+
+            # 统计平滑后的上下风口温差> 0的所有连续x范围
+            mask = y_smooth > 0
+            x_above_05 = x_new[mask]
+            # 识别连续区间（根据间距差异是否超过一定阈值）
+            ranges = []
+            if len(x_above_05) > 0:
+                group = [x_above_05[0]]
+                for i in range(1, len(x_above_05)):
+                    if x_above_05[i] - x_above_05[i - 1] <= (x_new[1] - x_new[0]) * 2:  # 连续间距
+                        group.append(x_above_05[i])
+                    else:
+                        ranges.append((round(group[0], 2), round(group[-1], 2)))
+                        group = [x_above_05[i]]
+                ranges.append((round(group[0], 2), round(group[-1], 2)))  # 添加最后一组
+
+            # 构造 range 字符串，如 1.2~5.4; 10.0~25.1
+            range_str = "; ".join([f"{start}~{end}" for start, end in ranges]) if ranges else ""
+
+            # 保存结果到一个列表中备用
+            if 'thermal_lag_data' not in locals():
+                thermal_lag_data = {}
+            if name not in thermal_lag_data:
+                thermal_lag_data[name] = []
+            thermal_lag_data[name].append({
+                'city': city,
+                'lst_difference_km': range_str
+            })
+        else:
+            ax1.plot(x_avg, y_avg, color='#4EBEFF', label='Cumulative Average WBTI')
+        ax1.plot(x_avg, y_avg, 'o', color='#4EBEFF', markersize=3, zorder=4)
+        # 添加 y=0 处的红色虚线
+        ax1.axhline(y=0, color='red', linestyle='--', linewidth=1)
+        ax1.set_xlabel("Downwind Distance (km)")
+        ax1.set_ylabel("Cumulative LST Difference (℃)", color='black')
+        ax1.tick_params(axis='y', labelcolor='black')
+        ax1.set_xlim(1, 30)
+        # 标题与图例
+        plt.title(f" LST Difference - {name}")
+        lines1, labels1 = ax1.get_legend_handles_labels()
+        # lines2, labels2 = ax2.get_legend_handles_labels()
+        fig.legend(lines1 , labels1 , loc='upper left', bbox_to_anchor=(0, 1),
+                   bbox_transform=ax1.transAxes, fontsize=9)
+        fig.tight_layout()
+
+        # 保存图像
+        out_path = os.path.join(output_dir, f"LST Difference of {city} - {name}.png")
+        plt.savefig(out_path, dpi=200)
+        plt.close()
+    print(f"所有城市图像已保存至: {output_dir}")
+for name, records in thermal_lag_data.items():
+    df_output = pd.DataFrame(records)
+    df_output.to_csv(output_csv_map[name], index=False, encoding='utf-8-sig')
+    print(f"{name} 上下风口温差范围统计已保存到：{output_csv_map[name]}")
