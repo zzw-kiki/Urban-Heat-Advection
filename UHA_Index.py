@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 import os
-# 在原有的WBTI基础上加上上下风口每公里温差，使用n km内的平均值，并不使用上下风区对应点位做差
+# 最终指标不适用sigmod函数，sigmod值>0.5对应残差>0
 def sigmoid(x):
     return 1 / (1 + np.exp(-x))
 
@@ -44,15 +44,15 @@ def compute_uha(df, k=10):
                 return sigmoid(k * row['delta_delta_T'])
         '''
 
-        df_downwind['WBTI_value'] = df_downwind.apply(compute_w, axis=1)
+        df_downwind['UHA_value'] = df_downwind.apply(compute_w, axis=1)
 
         # 构建以城市为行，UHA_distance为列的结构
         row = {'city': city}
-        wbti_columns = []
+        uha_columns = []
         for _, r in df_downwind.iterrows():
             col_name = f"UHA_{int(r['distance'])}"
             row[col_name] = r['UHA_value']
-            wbti_columns.append(col_name)
+            uha_columns.append(col_name)
 
         # row['AVG_WBTI_all'] = df_downwind['WBTI_value'].mean()
 
@@ -84,14 +84,14 @@ def compute_uha(df, k=10):
                 row[f'AVG_UHA_1_{upper}'] = subset['UHA_value'].mean()
             else:
                 row[f'AVG_UHA_1_{upper}'] = np.nan
-            wbti_columns.append(avg_col)
+            uha_columns.append(avg_col)
 
         # 最大WBTI及其对应距离
-        if wbti_columns:
-            wbti_vals = {col: row[col] for col in wbti_columns}
-            max_col = max(wbti_vals, key=wbti_vals.get)
+        if uha_columns:
+            uha_vals = {col: row[col] for col in uha_columns}
+            max_col = max(uha_vals, key=uha_vals.get)
             row['Max_UHA_column'] = max_col
-            row['Max_UHA_value'] = wbti_vals[max_col]
+            row['Max_UHA_value'] = uha_vals[max_col]
         else:
             row['Max_UHA_column'] = np.nan
             row['Max_UHA_value'] = np.nan
@@ -137,8 +137,8 @@ def compute_uha(df, k=10):
 
     # 各类别列
     avg_cols = sorted(
-        [col for col in df_result.columns if col.startswith('AVG_WBTI_1_')],
-        key=lambda x: extract_number(x, 'AVG_WBTI_1_')
+        [col for col in df_result.columns if col.startswith('AVG_UHA_1_')],
+        key=lambda x: extract_number(x, 'AVG_UHA_1_')
     )
 
     dt2020_cols = sorted(
@@ -153,11 +153,11 @@ def compute_uha(df, k=10):
 
     max_cols = ['Max_UHA_column', 'Max_UHA_value', 'ΔT2010_MAX_column', 'ΔT2010_MAX_value', 'ΔT2020_MAX_column', 'ΔT2020_MAX_value']
 
-    wbti_cols = [col for col in df_result.columns if col.startswith('UHA_') and not col.startswith('AVG_UHA_1_')]
+    uha_cols = [col for col in df_result.columns if col.startswith('UHA_') and not col.startswith('AVG_UHA_1_')]
 
 
     # WBTI 升序排列（1 到 30）
-    uha_cols_sorted = sorted(wbti_cols, key=lambda x: extract_number(x, 'UHA_'))
+    uha_cols_sorted = sorted(uha_cols, key=lambda x: extract_number(x, 'UHA_'))
 
     # 拼接最终列名
     ordered_cols = (
@@ -189,22 +189,22 @@ for k in [1, 5, 10, 15, 20]:
     result_df = compute_uha(df, k=k)
 
     # 保存主WBTI结果
-    result_path = os.path.join(output_base_path, f"WBTI_3km_1km_k{k}.csv")
+    result_path = os.path.join(output_base_path, f"UHA_3km_1km_k{k}.csv")
     result_df.to_csv(result_path, index=False, encoding='utf-8-sig')
-    print(f"已保存 k = {k} 的 WBTI 表格：{result_path}")
+    print(f"已保存 k = {k} 的 UHA 表格：{result_path}")
 
 
     # 统计大于 0.5 的城市数量
-    wbti_cols = [col for col in result_df.columns if col.startswith("WBTI_") or col.startswith("AVG_WBTI_")]
-    wbti_counts = (result_df[wbti_cols] > 0.5).sum(axis=0)
-    wbti_counts.name = f'num_cities_over_0.5_k={k}'  # 列名添加 k 标记
+    uha_cols = [col for col in result_df.columns if col.startswith("WBTI_") or col.startswith("AVG_WBTI_")]
+    uha_counts = (result_df[wbti_cols] > 0.5).sum(axis=0)
+    uha_counts.name = f'num_cities_over_0.5_k={k}'  # 列名添加 k 标记
     all_counts_list.append(wbti_counts)
 
     # 合并所有k列（按列方向）
     combined_counts_df = pd.concat(all_counts_list, axis=1).reset_index()
-    combined_counts_df.rename(columns={'index': 'WBTI_column'}, inplace=True)
+    combined_counts_df.rename(columns={'index': 'UHA_column'}, inplace=True)
 
     # 保存为CSV
-combined_path = os.path.join(output_base_path, "WBTI_over_0.5_city_count.csv")
+combined_path = os.path.join(output_base_path, "UHA_over_0.5_city_count.csv")
 combined_counts_df.to_csv(combined_path, index=False, encoding='utf-8-sig')
 print("所有k值的统计结果已按列合并保存：", combined_path)
