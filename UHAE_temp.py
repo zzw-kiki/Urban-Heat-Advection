@@ -9,7 +9,6 @@ plt.rcParams["font.family"] = "Times New Roman"
 
 # 文件路径
 xlsx_path = r"E:\UHA\final.xlsx"
-# output_dir = r"E:\WBTI\筛选结果\linear analysis\range_modified"
 output_dir = r"E:\UHA\images"
 os.makedirs(output_dir, exist_ok=True)
 
