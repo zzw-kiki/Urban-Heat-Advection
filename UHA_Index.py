@@ -196,9 +196,9 @@ for k in [1, 5, 10, 15, 20]:
 
     # 统计大于 0.5 的城市数量
     uha_cols = [col for col in result_df.columns if col.startswith("WBTI_") or col.startswith("AVG_WBTI_")]
-    uha_counts = (result_df[wbti_cols] > 0.5).sum(axis=0)
+    uha_counts = (result_df[uha_cols] > 0.5).sum(axis=0)
     uha_counts.name = f'num_cities_over_0.5_k={k}'  # 列名添加 k 标记
-    all_counts_list.append(wbti_counts)
+    all_counts_list.append(uha_counts)
 
     # 合并所有k列（按列方向）
     combined_counts_df = pd.concat(all_counts_list, axis=1).reset_index()
