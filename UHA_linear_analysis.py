@@ -7,7 +7,6 @@ from scipy.stats import linregress, t
 plt.rcParams["font.family"] = "Times New Roman"
 # ================= 读取数据 =================
 file = r"E:\UHA\UHA_BH_All_with_wind_difference.csv"
-# file = r"E:\WBTI\筛选结果\论文\UHA\UHA_BH&speed_updated_2010_range_modified.csv"
 df = pd.read_csv(file)
 df = df[df['风向差(绝对值)'] <= 45]
 # ================= 设置颜色与标签 =================
