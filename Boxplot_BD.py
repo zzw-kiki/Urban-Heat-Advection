@@ -7,11 +7,11 @@ from scipy.stats import gaussian_kde
 plt.rcParams["font.family"] = "Times New Roman"
 
 # 文件路径
-plot_dir = r"E:\UHA\images"
+plot_dir = r"E:\UHAE\BH&BD"
 os.makedirs(plot_dir, exist_ok=True)
 out_path = os.path.join(plot_dir, "Box_BD.png")
 
-df = pd.read_csv(r"E:\UHA\city_BD.csv")  # city_name, BH_2010, BH_2020, size
+df = pd.read_csv(r"E:\UHAE\BH&BD\city_BD.csv")  # city_name, BH_2010, BH_2020, size
 
 # 添加 "all" 分类
 df_all = df.copy()

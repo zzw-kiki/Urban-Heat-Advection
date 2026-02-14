@@ -1,11 +1,4 @@
-# 读取 climate_merged.csv；
-# 按size_3 列分组，在 climate、terrain、Region
-# 三个分类下分别计算 thermal lag temp(℃) center_Modified2_Modified 和 range_intersection_center_Modified2_Modified 的平均值；
-# 画出三张独立的图（每张图有两个纵向子图：上面是 thermal lag temp，
-# 下面是 range_intersection）；
-# 每张图类别从大到小排序，去掉下边框和右边框；
-# 输出为 climate_statistic.png、Terrain_statistic.png
-# 和 Huhuangyong_statistic.png，保存到 "E:\WBTI\筛选结果\论文\论文出图2"
+
 import pandas as pd
 import matplotlib.pyplot as plt
 import os

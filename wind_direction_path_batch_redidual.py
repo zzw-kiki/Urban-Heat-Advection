@@ -14,10 +14,9 @@ plt.rcParams["font.family"] = "Times New Roman"
 rcParams['axes.unicode_minus'] = False  # 负号正常显示
 # 读取数据
 # df = pd.read_csv(r"E:\WBTI\wind_path_statistic\3km_3km_buffer\data.csv")
-df = pd.read_csv(r"E:\UHA\regression\3km_1km_buffer_strip1\regression_CPR.csv")
+df = pd.read_csv(r"E:\UHAE\regression\3km_1km_buffer_strip1\regression_CPR.csv")
 # 新建输出文件夹（如果不存在）
-# output_dir = r"E:\WBTI\figure_result\figure_result_3km_center"
-output_dir = r"E:\UHA\regression\3km_1km_buffer_strip1\predict_result_CPR"
+output_dir = r"E:\UHAE\regression\3km_1km_buffer_strip1\predict_result_CPR"
 os.makedirs(output_dir, exist_ok=True)
 log_path = os.path.join(output_dir, 'log.txt')
 log_file = open(log_path, 'w', encoding='utf-8')

@@ -55,8 +55,8 @@ def rose(df, city_name, dir_out, fig_name, rad=None):
     plt.close()
 
 # 文件夹路径
-csv_dir = r"E:\UHA\wind rose-N\2010_678_all_cities\frequency"
-output_dir = r"E:\UHA\wind rose-N\2010_678_all_cities"
+csv_dir = r"E:\UHAE\wind rose-N\2010_678_all_cities\frequency"
+output_dir = r"E:\UHAE\wind rose-N\2010_678_all_cities"
 
 # 遍历所有csv文件，加上进度条
 csv_files = [f for f in os.listdir(csv_dir) if f.endswith(".csv")]

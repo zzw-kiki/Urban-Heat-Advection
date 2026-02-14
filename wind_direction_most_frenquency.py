@@ -3,8 +3,8 @@ import pandas as pd
 from tqdm import tqdm  # 引入 tqdm 进度条
 # 将频率出现最高的主导风向添加到城市中心数据的 direction 列中
 # 文件路径
-frequency_dir = r"E:\UHA\wind rose-N\2010_678_all_cities\frequency"
-city_csv = r"E:\UHA\city_center\city_center_spatial_join.csv"
+frequency_dir = r"E:\UHAE\wind rose-N\2010_678_all_cities\frequency"
+city_csv = r"E:\UHAE\city_center\city_center_spatial_join.csv"
 
 # 读取城市中心数据
 df_city = pd.read_csv(city_csv, encoding='utf-8')

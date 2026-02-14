@@ -4,11 +4,11 @@ import pandas as pd
 import os
 
 # 文件路径
-dir_path = r"E:\UHA"
-file_2010 = os.path.join(dir_path, "bh2010.csv")
-file_2010_all = os.path.join(dir_path, "bh2010_all.csv")
-file_2020 = os.path.join(dir_path, "bh2020.csv")
-file_2020_all = os.path.join(dir_path, "bh2020_all.csv")
+dir_path = r"E:\UHAE\BH&BD"
+file_2010 = os.path.join(dir_path, "building_pixel_count_2010.csv")
+file_2010_all = os.path.join(dir_path, "all_pixel_count_2010.csv")
+file_2020 = os.path.join(dir_path, "building_pixel_count_2020.csv")
+file_2020_all = os.path.join(dir_path, "all_pixel_count_2020.csv")
 
 # 读取数据
 df_2010 = pd.read_csv(file_2010)

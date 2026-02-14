@@ -12,10 +12,10 @@ import numpy as np
 
 # 输入文件路径
 city_center_file = r"E:\UHA\city_center\city_center_spatial_join.csv"
-wind_file = r"E:\UHA\1980-01-01~2024-08-01中国各省市区县日度主导风向及平均风向计算结果\2010_678中国各城市主导风向及平均风向.csv"
+wind_file = r"E:\UHAE\China_Daily_Prevailing_WindDir_19800101_20240801\2010_678_China_City_Prevailing_Mean_WindDir.csv"
 
 # 输出文件路径
-output_file = r"E:\WBTI\city_center\city_center_spatial_join_speed_2010.csv"
+output_file = r"E:\UHAE\city_center\city_center_spatial_join_speed_2010.csv"
 
 # 读取数据
 df_city = pd.read_csv(city_center_file)

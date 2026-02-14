@@ -6,10 +6,10 @@ import os
 from tqdm import tqdm
 
 # 输入文件路径
-csv_path = r"E:\UHA\city_center\city_center_spatial_join_speed_2010.csv"
+csv_path = r"E:\UHAE\city_center\city_center_spatial_join_speed_2010.csv"
 
 # 输出文件路径
-output_dir = r"E:\UHA\wind rose-N"
+output_dir = r"E:\UHAE\wind rose-N"
 os.makedirs(output_dir, exist_ok=True)
 output_path = os.path.join(output_dir, "speed_direction_2010_060708_all_cities.shp")
 

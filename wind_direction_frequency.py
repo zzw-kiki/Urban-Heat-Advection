@@ -1,7 +1,7 @@
 import pandas as pd
 
 # 读取 2020 年十大城市日度主导风向及平均风向计算结果 CSV 文件
-csv_file = r"E:\UHA\1980-01-01~2024-08-01中国各省市区县日度主导风向及平均风向计算结果\2010_678中国各城市主导风向及平均风向.csv"
+csv_file = r"E:\UHAE\China_Daily_Prevailing_WindDir_19800101_20240801\2010_678_China_City_Prevailing_Mean_WindDir.csv"
 df = pd.read_csv(csv_file, encoding='utf-8-sig')
 
 # 确保 date 列是日期格式
@@ -19,7 +19,7 @@ cities = ['南京市', '上海市', '武汉市', '北京市', '广州市', '深�
 '''
 # 获取所有城市名称（去重）
 cities = df_2020_summer_678['市'].dropna().unique()
-txt_output = r"E:\WBTI\wind rose-N\2010_678_all_cities\frequency\city_list_2010.txt"
+txt_output = r"E:\UHAE\wind rose-N\2010_678_all_cities\frequency\city_list_2010.txt"
 with open(txt_output, 'w', encoding='utf-8') as f:
     for city in cities:
         f.write(city + '\n')
@@ -34,7 +34,7 @@ for city in cities:
     wind_direction_df.columns = ['wind dominant direction', 'frequency']
 
     # 输出路径
-    csv_output = f"E:\\WBTI\\wind rose-N\\2010_678_all_cities\\frequency\\2010_678_{city}_风向频率玫瑰图.csv"
+    csv_output = f"E:\\UHAE\\wind rose-N\\2010_678_all_cities\\frequency\\2010_678_{city}_风向频率玫瑰图.csv"
     wind_direction_df.to_csv(csv_output, index=False, encoding='utf-8-sig')
 
     print(f"{city} 风向频率数据已成功保存为 CSV 格式: {csv_output}")

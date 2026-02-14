@@ -7,9 +7,9 @@ import os
 import tqdm
 from tqdm import tqdm
 # 读取CSV
-csv_path = r"E:\UHA\city_center\city_center_shifted.csv"
+csv_path = r"E:\UHAE\city_center\city_center_shifted.csv"
 df = pd.read_csv(csv_path)
-
+# 以条带2 strip2为例，生成其他buffer时，更改中心点x0,y0即可
 # 坐标系设置
 crs_wgs84 = "EPSG:4326"
 # crs_meter = "EPSG:3857"
@@ -72,6 +72,6 @@ for idx, row in tqdm(df.iterrows(), total=len(df), desc="正在处理城市"):
 merged_gdf = pd.concat(all_buffers, ignore_index=True)
 
 # 保存合并后的大 shapefile
-output_path = r"E:\UHA\buffer\China_cities_3km_buffer_1km_interval_strip_2\China_cities_3km_buffer_1km_interval_strip_2.shp"
+output_path = r"E:\UHAE\buffer\China_cities_3km_buffer_1km_interval_strip_2\China_cities_3km_buffer_1km_interval_strip_2.shp"
 os.makedirs(os.path.dirname(output_path), exist_ok=True)
 merged_gdf.to_file(output_path, encoding='utf-8')
