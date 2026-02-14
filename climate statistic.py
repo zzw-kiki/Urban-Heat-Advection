@@ -26,8 +26,8 @@ import numpy as np
 plt.rcParams["font.family"] = "Times New Roman"
 
 # 文件路径
-data_path = r"E:\UHA\climate_merged.csv"
-out_dir = r"E:\UHA\images"
+data_path = r"E:\UHAE\geographical_data\climate_merged.csv"
+out_dir = r"E:\UHAE\geographical_data"
 os.makedirs(out_dir, exist_ok=True)
 
 df = pd.read_csv(data_path, encoding="utf-8")
