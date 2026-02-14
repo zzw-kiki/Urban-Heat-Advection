@@ -1,10 +1,10 @@
 import pandas as pd
 import numpy as np
 import os
-# 最终指标不适用sigmod函数，sigmod值>0.5对应残差>0
+'''
 def sigmoid(x):
     return 1 / (1 + np.exp(-x))
-
+'''
 def compute_uha(df, k=10):
     all_results = []
 
@@ -33,10 +33,10 @@ def compute_uha(df, k=10):
         df_downwind = df_city[df_city['distance'] > 0].copy()
         df_upwind = df_city[df_city['distance'] < 0].copy()
         # print(f"{city} 最远距离：", df_downwind['distance'].max())
-
+        '''
         def compute_w(row):
             return sigmoid(k * row['delta_residual'])
-        '''
+        
         def compute_w(row):
             if row['delta_T_2010'] <= 0:
                 return sigmoid(k * row['delta_delta_T'])
@@ -44,8 +44,8 @@ def compute_uha(df, k=10):
                 return sigmoid(k * row['delta_delta_T'])
         '''
 
-        df_downwind['UHA_value'] = df_downwind.apply(compute_w, axis=1)
-
+        # df_downwind['UHA_value'] = df_downwind.apply(compute_w, axis=1)
+        df_downwind['UHA_value'] = df_downwind['delta_residual']
         # 构建以城市为行，UHA_distance为列的结构
         row = {'city': city}
         uha_columns = []
@@ -178,11 +178,15 @@ def compute_uha(df, k=10):
 
 
 # 读取数据
-input_path = r"E:\UHA\regression\3km_1km_buffer_center\regression_CPR.csv"
+input_path = r"E:\UHAE\regression\3km_1km_buffer_strip2\regression_CPR.csv"
 df = pd.read_csv(input_path, encoding='utf-8')
-
+output_base_path = r"E:\UHAE\UHA_result"
+result_df = compute_uha(df, k=10)
+result_path = os.path.join(output_base_path, f"UHA_3km_1km_strip2.csv")
+result_df.to_csv(result_path, index=False, encoding='utf-8-sig')
+print(f"已保存UHA 表格：{result_path}")
+'''
 # 循环计算不同 k 值
-output_base_path = r"E:\UHA\UHA_result\3km_1km_center"
 all_counts_list = []  # 存放每个k的统计结果
 for k in [1, 5, 10, 15, 20]:
     print(f"正在计算 k = {k} 的结果...")
@@ -207,4 +211,4 @@ for k in [1, 5, 10, 15, 20]:
     # 保存为CSV
 combined_path = os.path.join(output_base_path, "UHA_over_0.5_city_count.csv")
 combined_counts_df.to_csv(combined_path, index=False, encoding='utf-8-sig')
-print("所有k值的统计结果已按列合并保存：", combined_path)
+print("所有k值的统计结果已按列合并保存：", combined_path) '''

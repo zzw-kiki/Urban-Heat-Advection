@@ -6,9 +6,9 @@ import os
 from scipy.stats import linregress, t
 plt.rcParams["font.family"] = "Times New Roman"
 # ================= 读取数据 =================
-file = r"E:\UHA\UHA_BH_All_with_wind_difference.csv"
+file = r"E:\UHAE\UHA_result\linear_analysis_UHA.csv"
 df = pd.read_csv(file)
-df = df[df['风向差(绝对值)'] <= 45]
+df = df[df['风向差(绝对值)'] <= 45] # 自行合并数据
 # ================= 设置颜色与标签 =================
 colors = {
     'Mega': '#FFC43A',
@@ -107,7 +107,7 @@ plot_regression_overall(df,'BH_2010', 'temp_2010', 2010,
                         'Building Height 2010 (m)', 'UHA_2010 (°C)',
                         'UHA_2010_vs_BH2010.png')
 
-plot_regression_overall(df,'BH_2010', 'range_2010', 2010,
+plot_regression_overall(df,'BH_2010', 'uha_range_2010', 2010,
                         'Building Height 2010 (m)', 'Spatial Extent of UHA phenomenon 2010 (km)',
                         'range2010_vs_BH2010.png')
 
@@ -115,6 +115,6 @@ plot_regression_overall(df,'BH_2020', 'temp_2020', 2020,
                         'Building Height 2020 (m)', 'UHA_2020 (°C)',
                         'UHA_2020_vs_BH2020.png')
 
-plot_regression_overall(df,'BH_2020', 'range_2020', 2020,
+plot_regression_overall(df,'BH_2020', 'uha_range_2020', 2020,
                         'Building Height 2020 (m)', 'Spatial Extent of UHA phenomenon 2020 (km)',
                         'range2020_vs_BH2020.png')
