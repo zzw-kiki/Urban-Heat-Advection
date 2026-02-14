@@ -5,7 +5,7 @@ from sklearn.cluster import KMeans
 from sklearn.metrics import silhouette_score, calinski_harabasz_score, davies_bouldin_score
 plt.rcParams["font.family"] = "Times New Roman"
 # 读取数据
-file = r"E:\UHA\final.xlsx"
+file = r"E:\UHAE\socio-economic-data\251_cities_with_GDP_Pop.xlsx"
 df = pd.read_excel(file)
 
 # 选出 GDP 和 population 都不为空的数据
@@ -79,7 +79,5 @@ mapping = {
 df['size_2'] = df['Cluster'].map(mapping)
 
 # 保存结果（可选）
-out_path = r"E:\WBTI\筛选结果\论文\final_2_with_cluster.xlsx"
-#df.to_excel(out_path, index=False)
-#summary_path = r"E:\WBTI\筛选结果\论文\cluster_summary.xlsx"
-#cluster_summary.to_excel(summary_path)
+out_path = r"E:\UHAE\socio-economic-data\251cities_with_cluster.xlsx"
+

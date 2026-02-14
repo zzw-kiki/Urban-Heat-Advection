@@ -9,10 +9,10 @@ matplotlib.use('TkAgg')
 # 每个城市单独训练一个模型
 failed_models = []  # 存储未建模成功的城市-年份
 model_stats = []  # 存储每个城市-年份的R, R², p值
-input_path = r"E:\UHA\wind_path_statistic\3km_1km_buffer\data.csv"
-output_csv = r"E:\UHA\regression\3km_1km_buffer\regression_OLS.csv" # 模型回归结果
-plot_dir = r"E:\UHA\regression\3km_1km_buffer\regression_result_OLS"
-stats_csv_path = r"E:\UHA\regression\3km_1km_buffer\model_stats_OLS.csv" # 模型统计评价指标结果
+input_path = r"E:\UHAE\wind_path_statistic\3km_1km_buffer\data.csv"
+output_csv = r"E:\UHAE\regression\3km_1km_buffer\regression_OLS.csv" # 模型回归结果
+plot_dir = r"E:\UHAE\regression\3km_1km_buffer\regression_result_OLS"
+stats_csv_path = r"E:\UHAE\regression\3km_1km_buffer\model_stats_OLS.csv" # 模型统计评价指标结果
 
 os.makedirs(plot_dir, exist_ok=True)
 log_path = os.path.join(plot_dir, 'log.txt')
