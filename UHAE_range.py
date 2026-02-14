@@ -8,8 +8,8 @@ from scipy.stats import linregress, t
 plt.rcParams["font.family"] = "Times New Roman"
 
 # 文件路径
-csv_path=r"E:\UHA\final.csv"
-output_dir = r"E:\UHA\images"
+csv_path=r"E:\UHAE\UHA_result\final_UHAE_192.csv"
+output_dir = r" "
 os.makedirs(output_dir, exist_ok=True)
 
 # 读取数据
@@ -70,7 +70,7 @@ for col in y_cols:
     # y_all = df[col+'_range'].values
     y_all = df[col].values
     # 剔除 NaN
-    valid_mask_all = (~np.isnan(y_all)) & (y_all > 1) & (df['风向差(绝对值)'] <=45) & (df['UHAE_temp_3'] >= 0)
+    valid_mask_all = (~np.isnan(y_all)) & (y_all > 1) & (df['风向差(绝对值)'] <=45) & (df['UHAE_temp'] >= 0)
     # valid_mask_all = (~np.isnan(y_all)) & (y_all > 1) & (df['UHAE_temp_3'] >= 0) # 不确定性分析
     x_valid_all = x_all[valid_mask_all]
     y_valid_all = y_all[valid_mask_all]

@@ -8,12 +8,12 @@ import os
 plt.rcParams["font.family"] = "Times New Roman"
 
 # 文件路径
-xlsx_path = r"E:\UHA\final.xlsx"
-output_dir = r"E:\UHA\images"
+csv_path = r"E:\UHAE\UHA_result\final_UHAE_192.csv"
+output_dir = r" "
 os.makedirs(output_dir, exist_ok=True)
 
 # 读取数据
-df = pd.read_excel(xlsx_path)
+df = pd.read_csv(csv_path)
 print(df.columns.tolist())
 
 # 根据 size 设置散点大小
